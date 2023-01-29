@@ -20,6 +20,8 @@ body {
 }
 
 
-.list {
+.list ,
+.country-list{
  list-style:none; 
 }
+
