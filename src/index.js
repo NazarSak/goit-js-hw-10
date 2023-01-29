@@ -33,7 +33,7 @@ const inputValue = e.target.value.trim();
         return countries.reduce((markup,countries) => creatMarkup(countries) + markup, "") ;    
 }
   
-// Notiflix.Notify.warning("Too many matches found. Please enter a more specific name.")   
+Notiflix.Notify.info("Too many matches found. Please enter a more specific name.")   
 
 
    
@@ -66,8 +66,8 @@ const allLanguage = Object.values(languages)
 function creatMarkup ({name,flags}) {
  
         return`
-         <li>
-         <img src = "${flags.png}" alt = "flag country" width = "100px" height = "100px"> <h1> ${name.official}</h1> </li>
+         
+         <img src = "${flags.png}" alt = "flag country" width = "100px" height = "100px"> <h1> ${name.official}</h1> 
          `
         }
 
@@ -77,8 +77,7 @@ function update (markup) {
 
 function onError (err) {
         console.log(err);
-        Notiflix.Notify.failure("Oops, there is no country with that name");   
-       input.removeEventListener("input",debounce(onSubmit,DEBOUNCE_DELAY))
+        Notiflix.Notify.failure("Oops, there is no country with that name");
 }
 
 
