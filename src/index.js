@@ -29,32 +29,39 @@ const inputValue = e.target.value;
 const trim = inputValue.trim();   
 
  API.fetchCountries(trim).then((countries) => {
-  if (countries.length === 0) {
+  if (countries.length === 404) {
    throw new Error ("No country")  
 
 }  else if (countries.length === 1) {
-       return creatingMarkup(countries[0]) 
+       creatingMarkup(countries[0]) 
+       list.innerHTML = "";
+       return;
     
       
 } 
   else if (countries.length > 10) {
     
-     return   Notiflix.Notify.info("Too many matches found. Please enter a more specific name.")        
+      Notiflix.Notify.info("Too many matches found. Please enter a more specific name.")        
         list.innerHTML = "";
         countryInfo.innerHTML = "";
+        return  
  }  
+ 
+else if ( countries.length > 1) {
+        creatMarkup(countries);
+        countryInfo.innerHTML = "";
+        return
+}
 
-
-        return  countries.reduce((markup,countries) => creatMarkup(countries) + markup, "");
+      
        
-          
+// return  countries.reduce((markup,countries) => creatMarkup(countries) + markup, "");    
       
 
 
 
    
  })
-   .then(update)
    .catch(onError)
 }
 
@@ -84,16 +91,19 @@ const allLanguage = Object.values(languages)
 
 
 
-function creatMarkup ({name,flags}) {
-        return`
-         <img src = "${flags.png}" alt = "flag country" width = "100px" height = "100px"> <h1> ${name.official}</h1> 
-         `
+function creatMarkup (countries) {
+        const markup = countries.map(country =>  `
+        <img src = "${country.flags.png}" alt = "flag country" width = "100px" height = "100px"> <h1> ${country.name.official}</h1> 
+        `).join("")
+        
+       
+         list.innerHTML = markup;   
         }
 
         
-function update (markup) {
-        list.innerHTML = markup    
-}
+// function update (markup) {
+//         list.innerHTML = markup    
+// }
 
 
 // eror 
