@@ -6,6 +6,9 @@ import Notiflix from 'notiflix';
 
 import API from "./fetchCountries.js"
 
+// all imports 
+
+
 const DEBOUNCE_DELAY = 300;
 
 const input = document.getElementById("search-box");
@@ -18,27 +21,41 @@ const list = document.querySelector(".country-list");
 
 input.addEventListener("input",debounce(onSubmit,DEBOUNCE_DELAY))
 
-function onSubmit (e) {  
-const inputValue = e.target.value.trim();
-   
+// all important things
 
- API.fetchCountries(inputValue).then((countries) => {
+
+function onSubmit (e) {  
+const inputValue = e.target.value;
+const trim = inputValue.trim();   
+
+ API.fetchCountries(trim).then((countries) => {
   if (countries.length === 0) {
    throw new Error ("No country")  
 
 }  else if (countries.length === 1) {
-        console.log(creatingMarkup(countries[0]));
+       return creatingMarkup(countries[0]) 
+    
+      
+} 
+  else if (countries.length > 10) {
+    
+     return   Notiflix.Notify.info("Too many matches found. Please enter a more specific name.")        
+        list.innerHTML = "";
+        countryInfo.innerHTML = "";
+ }  
 
-} else if (countries.length > 1) {
-        return countries.reduce((markup,countries) => creatMarkup(countries) + markup, "") ;    
-}
-  
-Notiflix.Notify.info("Too many matches found. Please enter a more specific name.")   
+
+        return  countries.reduce((markup,countries) => creatMarkup(countries) + markup, "");
+       
+          
+      
+
 
 
    
- }).then(update)
- .catch(onError)
+ })
+   .then(update)
+   .catch(onError)
 }
 
 
@@ -47,37 +64,44 @@ function creatingMarkup ({name,population,capital,languages,flags}) {
 
 const allLanguage = Object.values(languages)
 
-        const card = `<ul class = "list">
- <li>
- <img src = "${flags.png}" alt = "flag country" width = "100px" height = "100px"> <h1> ${name.official}</h1> </li>
+        const card = `
+  <div>
 
- <li> <span> Capital: </span> ${capital} </li>
- <li> <span> Population: </span> ${population} </li>
- <li> <span> Languages: </span> ${allLanguage} </li>
+  <img src = "${flags.png}" alt = "flag country" width = "100px" height = "100px"> 
+  <h1> ${name.official}</h1> 
+  <p> Capital: </span> ${capital} </p>
+  <p> Population: </span> ${population} </p>
+  <p> Languages: </span> ${allLanguage} </p>
  
- </ul>
+ </div>
+
  `;
  
- countryInfo.innerHTML = card
- 
+ countryInfo.innerHTML = card 
 }
 
 
+
+
+
 function creatMarkup ({name,flags}) {
- 
         return`
-         
          <img src = "${flags.png}" alt = "flag country" width = "100px" height = "100px"> <h1> ${name.official}</h1> 
          `
         }
 
+        
 function update (markup) {
-        list.innerHTML = markup   
+        list.innerHTML = markup    
 }
 
+
+// eror 
 function onError (err) {
         console.log(err);
         Notiflix.Notify.failure("Oops, there is no country with that name");
+        list.innerHTML = "";
+        countryInfo.innerHTML = "";
 }
 
 
