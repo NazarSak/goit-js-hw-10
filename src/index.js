@@ -29,8 +29,11 @@ const inputValue = e.target.value;
 const trim = inputValue.trim();   
 
  API.fetchCountries(trim).then((countries) => {
-  if (countries.length === 404) {
-   throw new Error ("No country")  
+  if (countries.status === 404) {
+        Notiflix.Notify.failure("Oops, there is no country with that name");
+        list.innerHTML = "";
+        countryInfo.innerHTML = "";
+
 
 }  else if (countries.length === 1) {
        creatingMarkup(countries[0]) 
@@ -53,14 +56,7 @@ else if ( countries.length > 1) {
         return
 }
 
-      
-       
-// return  countries.reduce((markup,countries) => creatMarkup(countries) + markup, "");    
-      
 
-
-
-   
  })
    .catch(onError)
 }
@@ -101,17 +97,12 @@ function creatMarkup (countries) {
         }
 
         
-// function update (markup) {
-//         list.innerHTML = markup    
-// }
 
 
 // eror 
-function onError (err) {
-        console.log(err);
-        Notiflix.Notify.failure("Oops, there is no country with that name");
-        list.innerHTML = "";
-        countryInfo.innerHTML = "";
+function onError () {
+    
+      
 }
 
 
