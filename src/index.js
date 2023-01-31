@@ -25,10 +25,15 @@ input.addEventListener("input",debounce(onSubmit,DEBOUNCE_DELAY))
 
 
 function onSubmit (e) {  
-const inputValue = e.target.value;
-const trim = inputValue.trim();   
+const inputValue = e.target.value.trim();
+   
+if (!inputValue) {
+        list.innerHTML = "";
+        countryInfo.innerHTML = "";
+        return
+}
 
- API.fetchCountries(trim).then((countries) => {
+ API.fetchCountries(inputValue.trim()).then((countries) => {
   if (countries.status === 404) {
         Notiflix.Notify.failure("Oops, there is no country with that name");
         list.innerHTML = "";
@@ -72,9 +77,9 @@ const allLanguage = Object.values(languages)
 
   <img src = "${flags.png}" alt = "flag country" width = "100px" height = "100px"> 
   <h1> ${name.official}</h1> 
-  <p> Capital: </span> ${capital} </p>
-  <p> Population: </span> ${population} </p>
-  <p> Languages: </span> ${allLanguage} </p>
+  <p> <span class = "info-country"> Capital: </span> ${capital} </p>
+  <p> <span class = "info-country"> Population: </span> ${population} </p>
+  <p> <span class = "info-country"> Languages: </span> ${allLanguage} </p>
  
  </div>
 
@@ -88,8 +93,11 @@ const allLanguage = Object.values(languages)
 
 
 function creatMarkup (countries) {
-        const markup = countries.map(country =>  `
-        <img src = "${country.flags.png}" alt = "flag country" width = "100px" height = "100px"> <h1> ${country.name.official}</h1> 
+        const markup = countries.map(country => 
+                 `
+        <div class = "list-country">
+        <img src = "${country.flags.png}" alt = "flag country" width = "50px" height = "50px"> <h1 class = "countries"> ${country.name.official}</h1> 
+        </div>
         `).join("")
         
        

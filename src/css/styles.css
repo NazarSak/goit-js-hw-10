@@ -25,3 +25,22 @@ body {
  list-style:none; 
 }
 
+
+.list-country {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1000px;
+  align-items: center;
+}
+
+.countries {
+ margin-left: 20px; 
+}
+
+.info-country{
+  font-size: 20px;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: 0.03em;
+  font-weight: bold;
+}
