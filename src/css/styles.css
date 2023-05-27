@@ -19,12 +19,10 @@ body {
   margin-bottom: 16px;
 }
 
-
-.list ,
-.country-list{
- list-style:none; 
+.list,
+.country-list {
+  list-style: none;
 }
-
 
 .list-country {
   display: flex;
@@ -34,10 +32,10 @@ body {
 }
 
 .countries {
- margin-left: 20px; 
+  margin-left: 20px;
 }
 
-.info-country{
+.info-country {
   font-size: 20px;
   line-height: 1.2;
   text-align: center;
